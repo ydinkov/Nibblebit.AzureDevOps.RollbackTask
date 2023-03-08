@@ -1,0 +1,36 @@
+{
+    "manifestVersion": 1,
+    "id": "rollback-task",
+    "name": "Rollback to previous successful deployment",
+    "version": "0.0.1",
+    "publisher": "Yasen Dinkov",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "This task finds the precious successful release to of the same stage and redeploys jobs in that stage",
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "icons": {
+        "default": "images/logo.svg"        
+    },
+    "files": [
+        {
+            "path": "rollbacktask"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "custom-build-release-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "buildandreleasetask"
+            }
+        }
+    ]
+}
