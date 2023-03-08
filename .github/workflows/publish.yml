@@ -1,0 +1,30 @@
+
+name: Publish
+
+on:
+  push:
+    # Sequence of patterns matched against refs/heads
+    branches:    
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1        
+        
+      - name: init
+        run: npm install -g tfx-cli
+        
+      - name: Setup
+        run: npm ci
+        
+      - name: Build
+        run: tsc
+        
+      - name: Package
+        run: tfx extension create --manifest-globs vss-extension.json
+        
+      - name: Publish
+        run: tfx extension publish --manifest-globs vss-extension.json --auth-type pat -t {{secrets.PAT}}
