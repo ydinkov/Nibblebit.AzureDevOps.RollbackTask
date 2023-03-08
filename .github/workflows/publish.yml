@@ -27,4 +27,6 @@ jobs:
         run: tfx extension create --manifest-globs vss-extension.json
         
       - name: Publish
-        run: tfx extension publish --manifest-globs vss-extension.json --auth-type pat -t {{secrets.PAT}}
+        run: tfx extension publish --manifest-globs vss-extension.json --auth-type pat -t $PAT
+        env:
+          PAT: ${{ secrets.PAT }}
