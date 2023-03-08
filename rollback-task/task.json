@@ -1,0 +1,56 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+  "id": "f4fe9c57-a569-4c8b-8a96-a4df60688c62",
+  "name": "Rollback",
+  "friendlyName": "Rollback Stage",
+  "description": "Task re-runs an older stage of a successful run of this definition",
+  "helpMarkDown": "",
+  "category": "Utility",
+  "author": "Yasen Dinkov",
+  "version": {
+    "Major": 0,
+    "Minor": 3,
+    "Patch": 0
+  },
+  "instanceNameFormat": "Rolling back",
+  "inputs": [
+    {
+      "name": "BuildId",
+      "type": "string",
+      "label": "Starting Build Id",
+      "defaultValue": "$(Build.BuildId)",
+      "required": true,
+      "helpMarkDown": "The Task will start searching for successful runs before this build ID. Default is the current build's ID "
+    },
+
+    {
+      "name": "Stage",
+      "type": "string",
+      "label": "Stage to re-run",
+      "defaultValue": "$(System.StageName)",
+      "required": true,
+      "helpMarkDown": "The Task will Re-run this stage on the target rollback build. Default is current stage"
+    },
+    {
+      "name": "DefinitionOverride",
+      "type": "string",
+      "label": "Definition Override",
+      "defaultValue": "$(System.DefinitionId)",
+      "required": false,
+      "helpMarkDown": "Here you can define a specific definition if you want to rollback an entirely different pipeline. Default is the definition of the current build."
+    },
+    {
+      "name": "BranchFilter",
+      "type": "string",
+      "label": "Branch",
+      "defaultValue": "refs/heads/master",
+      "required": true,
+      "helpMarkDown": "Only builds on this branch will be considered for a rollback."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "index.js"
+    }
+  }
+}
