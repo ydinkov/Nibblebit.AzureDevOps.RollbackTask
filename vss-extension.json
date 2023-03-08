@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "Rollback",
     "name": "Rollback Deployment",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "publisher": "Nibblebit",
     "targets": [
         {
