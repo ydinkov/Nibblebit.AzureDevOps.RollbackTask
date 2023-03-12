@@ -10,7 +10,7 @@
   "version": {
     "Major": 0,
     "Minor": 3,
-    "Patch": 7
+    "Patch": 9
   },
   "instanceNameFormat": "Rolling back",
   "inputs": [
