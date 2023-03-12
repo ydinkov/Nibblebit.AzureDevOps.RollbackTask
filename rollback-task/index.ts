@@ -44,36 +44,29 @@ const GetOptions = {
         
 
 async function run() {
+    console.log("Starting rollback")    
+    let buildsUrl = `${baseUrl}/build/builds?definitions=${DefinitionId}&api-version=7.0`;
     try {        
-        console.log("Starting rollback")
-
-        let buildsUrl = `${baseUrl}/build/builds?definitions=${DefinitionId}&api-version=7.0`;
         let req = https.request(buildsUrl, GetOptions, (res) => {
             console.log("Retreiving previous builds")
             let data = '';
-            res.on('data', (chunk) => { data += chunk; });
-            
+            res.on('data', (chunk) => { data += chunk; });            
             res.on('end', () => {
                 let response = JSON.parse(data);
                 console.log(`Retreived ${response.value.length} builds`)
-
                 let LatestSuccessfulBuildId = response.value
                     .filter((run: Record<string, any>) => run.id < Number(BuildId) && run.status === "completed" && run.result === "succeeded" && run.sourceBranch === BranchFilter)
                     .map((run: Record<string, any>) => ({id: run.id}))
                     .sort((a: Record<string, any>, b: Record<string, any>) => b.id - a.id)[0].id;
-
-                console.log(`Rolling back from  ${BuildId}:${Stage} to -> ${LatestSuccessfulBuildId}:${Stage}`)   
-
-                
+                console.log(`Rolling back from  ${BuildId}:${Stage} to -> ${LatestSuccessfulBuildId}:${Stage}`)                   
                 let redeployUrl =  `${baseUrl}/build/builds/${LatestSuccessfulBuildId}/stages/${Stage}?api-version=7.0` 
                 let req = https.request(redeployUrl, PatchOptions, (res) => {
                     let responseData = '';            
                     console.log(res.statusCode)
                     res.on('data', (chunk) => {responseData += chunk;});                
                     res.on('end', () => {
-                        //let response = JSON.parse(data);
-                        console.log("Patch complete")
-                        console.log(responseData)
+                        console.log("Patch complete");
+                        console.log(responseData);
                     });
                 });
                 console.log(redeployUrl)
@@ -84,10 +77,11 @@ async function run() {
         req.end();
     }
     catch (errorMsg) {
-        tl.setResult(tl.TaskResult.Failed,"Could not rollback!");
         if (errorMsg instanceof Error) {
             console.log(errorMsg.message);
+            console.log(errorMsg.stack);
         }
+        tl.setResult(tl.TaskResult.Failed,"Could not rollback!");
     }
 }
 
