@@ -6,7 +6,9 @@ const OrganizationUri = tl.getVariable("System.CollectionUri");
 const Project = tl.getVariable("System.TeamProject");
     console.log(`Reading Project:${Project}`);
 const Token = tl.getVariable("System.AccessToken");  
+if (Token !== undefined) {
     console.log(`Reading Token:${"*".repeat(Token.length)}`);
+}
 const DefinitionId = tl.getVariable("System.DefinitionId");
     console.log(`Reading DefinitionId:${DefinitionId}`);
 const BuildId = tl.getVariable("Build.BuildId");
