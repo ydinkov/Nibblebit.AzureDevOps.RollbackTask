@@ -83,8 +83,11 @@ async function run() {
         });
         req.end();
     }
-    catch (errorMessage) {
+    catch (errorMsg) {
         tl.setResult(tl.TaskResult.Failed,"Could not rollback!");
+        if (errorMsg instanceof Error) {
+            console.log(errorMsg.message);
+        }
     }
 }
 
