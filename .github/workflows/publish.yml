@@ -13,17 +13,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1  
-      
-      - run : cd rollback-task
         
       - name: init
         run: npm install -g tfx-cli
         
       - name: Setup
-        run: npm ci
+        run: npm install
+        working-directory: rollback-task
         
       - name: Build
         run: tsc
+        working-directory: rollback-task
         
       - name: Package
         run: tfx extension create --manifest-globs vss-extension.json
